@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from annoying.functions import get_object_or_None
 import json
@@ -20,9 +21,9 @@ def index(request):
 def login(request):
 
     try:
-        datos = json.loads(request.POST["data"])
-        username = datos.get("username")
-        password = datos.get("password")
+        data = json.loads(request.POST["data"])
+        username = data.get("username")
+        password = data.get("password")
 
         # -- user and pswd checking --
         if (username is None and password is None) or (username == "" and password == ""):
@@ -75,7 +76,8 @@ def login(request):
     except Exception as e:
         return JsonResponse({
             "result": "error",
-            "message": "something went wrong on the server"
+            "message": "something went wrong on the server",
+            "traceback": e.__traceback__
         })
 
 
@@ -108,6 +110,51 @@ def logout(request):
         print(e)
         return JsonResponse({
             "result": "error",
-            "message": "something went wrong on the server"
+            "message": "something went wrong on the server",
+            "traceback": e.__traceback__
+        })
+
+
+@csrf_exempt
+def signup(request):
+    try:
+        data = json.loads(request.POST["data"])
+        username = data.get("username")
+        password = data.get("password")
+        email = data.get("email")
+
+        # -- user and pswd checking --
+        if username is None or username == "":
+            return JsonResponse({
+                "result": "error",
+                "message": "user is empty or none"
+            })
+
+        if email is None or email == "":
+            return JsonResponse({
+                "result": "error",
+                "message": "email is empty or none"
+            })
+
+        if password is None or password == "":
+            return JsonResponse({
+                "result": "error",
+                "message": "password is empty or none"
+            })
+        # -- end of user and pswd checking --
+
+        user = User.objects.create_user(username, email, password)
+        user.save()
+
+        return JsonResponse({
+            "result": "ok",
+            "message": "user was created succesfully"
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            "result": "error",
+            "message": "something went wrong on the server",
+            "traceback": e.__traceback__
         })
 
