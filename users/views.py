@@ -60,12 +60,13 @@ def login(request):
 
                 else:
                     print(user.username + "logged in")
-                    return JsonResponse({
+                    response_data = {
                         "result": "ok",
                         "username": user.username,
                         "email": user.email,
                         "token": user_token.token
-                    })
+                    }
+                    return JsonResponse(response_data)
 
         else:
             return JsonResponse({
@@ -77,7 +78,7 @@ def login(request):
         return JsonResponse({
             "result": "error",
             "message": "something went wrong on the server",
-            "traceback": e.__traceback__
+            "traceback": str(e)
         })
 
 
