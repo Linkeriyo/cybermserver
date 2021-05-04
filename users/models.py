@@ -24,7 +24,7 @@ class UserExtraData(models.Model):
 
     def json(self):
         json = {
-            'pk': user.pk,
+            'pk': self.user.pk,
             'email': self.email,
             'name': self.name,
             'surname': self.surname,
