@@ -39,3 +39,14 @@ class CyberCafe(models.Model):
     telephone_number = models.CharField(max_length=9)
     email = models.CharField(max_length=50)
 
+
+class ProductType(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=200)
+
+
+class Product(models.Model):
+    product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
+    reference = models.CharField(max_length=30)
+    description = models.CharField(max_length=200)
+
