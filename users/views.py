@@ -6,7 +6,7 @@ import json
 
 from django.views.decorators.csrf import csrf_exempt
 
-from users.models import UserToken
+from users.models import UserExtraData, UserToken
 from utilities import Token
 
 @csrf_exempt
@@ -21,7 +21,6 @@ def index(request):
 def login(request):
     try:
         data = json.loads(request.POST["data"])
-        print(data)
         username = data.get("username")
         password = data.get("password")
 
@@ -161,3 +160,47 @@ def signup(request):
             "traceback": e.__traceback__
         })
 
+@csrf_exempt
+def check_user_extra_data(request):
+    try:
+        data = json.loads(request.POST['data'])
+        token = data.get('token')
+        username = data.get('username')
+
+        user_token = get_object_or_None(UserToken, token=token)
+
+        if user_token is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "the token is null"
+            })
+            
+        user = user_token.user
+
+        if user_token.user.username != username:
+            return JsonResponse({
+                "result": "error",
+                "message": "the user does not match with the token provided"
+            })
+
+        user_extra_data = get_object_or_None(UserExtraData, user=user)
+
+        if user_extra_data is None:
+            return JsonResponse({
+                "result": "ok",
+                "has_extra_data": False
+            })
+        
+        else:
+            return JsonResponse({
+                "result": "ok",
+                "has_extra_data": True,
+                "user_extra_data": user_extra_data.json()
+            })
+
+    except Exception as e:
+        return JsonResponse({
+            "result": "error",
+            "message": "something went wrong on the server",
+            "traceback": e.__traceback__
+        })
