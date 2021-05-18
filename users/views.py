@@ -12,7 +12,7 @@ from utilities import Token
 @csrf_exempt
 def index(request):
     response = {
-        "threat": "easter egg ahora debes darme tu numero de tarjeta, fecha de caducidad y cvv"
+        "threat": "cuidado"
     }
     return JsonResponse(response)
 
@@ -21,6 +21,7 @@ def index(request):
 def login(request):
     try:
         data = json.loads(request.POST["data"])
+        print(data)
         username = data.get("username")
         password = data.get("password")
 
@@ -56,17 +57,20 @@ def login(request):
                     token_value = Token.generate_value()
                     user_token = UserToken(token=token_value, user=user)
                     user_token.save()
+            
+                return JsonResponse({
+                    "result": "ok",
+                    "username": user.username,
+                    "email": user.email,
+                    "token": user_token.token
+                })
 
-                else:
-                    print(user.username + "logged in")
-                    response_data = {
-                        "result": "ok",
-                        "username": user.username,
-                        "email": user.email,
-                        "token": user_token.token
-                    }
-                    return JsonResponse(response_data)
-
+            else:
+                return JsonResponse({
+                    "result": "error",
+                    "message": "user is not active"
+                })
+        
         else:
             return JsonResponse({
                 "result": "error",
@@ -118,10 +122,10 @@ def logout(request):
 @csrf_exempt
 def signup(request):
     try:
-        data = json.loads(request.body)
-        username = data.get("username")
-        password = data.get("password")
-        email = data.get("email")
+        data = json.loads(request.POST['data'])
+        username = data.get('username')
+        password = data.get('password')
+        email = data.get('email')
 
         # -- user and pswd checking --
         if username is None or username == "":
@@ -145,10 +149,9 @@ def signup(request):
 
         user = User.objects.create_user(username, email, password)
         user.save()
-
+        
         return JsonResponse({
-            "result": "ok",
-            "message": "user was created succesfully"
+            "result": "ok", "message": "user was created succesfully"
         })
 
     except Exception as e:

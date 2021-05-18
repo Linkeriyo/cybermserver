@@ -26,9 +26,8 @@ SECRET_KEY = 'fcj=2#4&et%=ru(ees_)2kw57gb!b_2%wgj5-b#st)+1(2$^g^'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.1.36'
+    '192.168.1.37'
 ]
-
 
 # Application definition
 
@@ -39,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users'
+    'users',
+    'businesses',
+    'computers',
+    'store'
 ]
 
 MIDDLEWARE = [
@@ -57,8 +59,7 @@ ROOT_URLCONF = 'cybermserver.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
