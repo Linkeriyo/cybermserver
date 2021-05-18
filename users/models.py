@@ -74,6 +74,7 @@ class CyberCafe(models.Model):
             'telephone_number': self.telephone_number,
             'email': self.email
         }
+        return json
 
 
 class ProductType(models.Model):

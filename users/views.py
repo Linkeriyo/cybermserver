@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from users.models import UserToken
 from utilities import Token
 
-
+@csrf_exempt
 def index(request):
     response = {
         "threat": "easter egg ahora debes darme tu numero de tarjeta, fecha de caducidad y cvv"
@@ -19,7 +19,6 @@ def index(request):
 
 @csrf_exempt
 def login(request):
-
     try:
         data = json.loads(request.POST["data"])
         username = data.get("username")
@@ -119,7 +118,7 @@ def logout(request):
 @csrf_exempt
 def signup(request):
     try:
-        data = json.loads(request.POST["data"])
+        data = json.loads(request.body)
         username = data.get("username")
         password = data.get("password")
         email = data.get("email")
