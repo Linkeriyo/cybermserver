@@ -13,10 +13,9 @@ class UserToken(models.Model):
 
 class UserExtraData(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.CharField(max_length=50)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
-    telephone_number = models.CharField(max_length=9)
+    phno = models.CharField(max_length=9)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=30)
     province = models.CharField(max_length=30)
@@ -28,7 +27,7 @@ class UserExtraData(models.Model):
             'email': self.email,
             'name': self.name,
             'surname': self.surname,
-            'telephone_number': self.telephone_number,
+            'phno': self.phno,
             'address': self.address,
             'city': self.city,
             'province': self.province,
