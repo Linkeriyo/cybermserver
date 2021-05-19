@@ -265,3 +265,4 @@ def set_user_extra_data(request):
             "message": "something went wrong on the server",
             "traceback": str(e)
         })
+    
