@@ -11,10 +11,37 @@ from utilities import Token
 
 @csrf_exempt
 def index(request):
-    response = {
+    return JsonResponse({
         "threat": "cuidado"
-    }
-    return JsonResponse(response)
+    })
+
+
+def check_user(token, username):
+    try:
+        user_token = get_object_or_None(UserToken, token=token)
+
+        if user_token is None:
+            return {
+                "result": "error",
+                "message": "token is null"
+            }
+
+        if user_token.user.username != username:
+            return {
+                "result": "error",
+                "message": "token does not match with username"
+            }
+
+        return {
+            "result": "ok",
+            "message": "token is valid"
+        }
+
+    except Exception as e:
+        return {
+            "result": "error",
+            "message": str(e)
+        }
 
 
 @csrf_exempt
@@ -110,11 +137,10 @@ def logout(request):
             })
 
     except Exception as e:
-        print(e)
         return JsonResponse({
             "result": "error",
             "message": "something went wrong on the server",
-            "traceback": e.__traceback__
+            "traceback": str(e)
         })
 
 
@@ -157,7 +183,7 @@ def signup(request):
         return JsonResponse({
             "result": "error",
             "message": "something went wrong on the server",
-            "traceback": e.__traceback__
+            "traceback": str(e)
         })
 
 @csrf_exempt
@@ -167,21 +193,13 @@ def check_user_extra_data(request):
         token = data.get('token')
         username = data.get('username')
 
+        check_result = check_user(token, username)
+
+        if check_result.get('result') != 'ok':
+            return JsonResponse(check_result)
+
         user_token = get_object_or_None(UserToken, token=token)
-
-        if user_token is None:
-            return JsonResponse({
-                "result": "error",
-                "message": "the token is null"
-            })
-            
         user = user_token.user
-
-        if user_token.user.username != username:
-            return JsonResponse({
-                "result": "error",
-                "message": "the user does not match with the token provided"
-            })
 
         user_extra_data = get_object_or_None(UserExtraData, user=user)
 
@@ -202,5 +220,48 @@ def check_user_extra_data(request):
         return JsonResponse({
             "result": "error",
             "message": "something went wrong on the server",
-            "traceback": e.__traceback__
+            "traceback": str(e)
+        })
+
+
+@csrf_exempt
+def set_user_extra_data(request):
+    try:
+        data = json.loads(request.POST['data'])
+        token = data.get('token')
+        username = data.get('username')
+        name = data.get('name')
+        surname = data.get('surname')
+        phono = data.get('phono')
+        address = data.get('address')
+        city = data.get('city')
+        province = data.get('province')
+        zip_code = data.get('zip_code')
+
+        check_result = check_user(token, username)
+        if check_result.get('result') != 'ok':
+            return JsonResponse(check_result)
+        
+        user_token = get_object_or_None(UserToken, token=token)
+        
+        user_extra_data = UserExtraData(
+            user=user_token.user, 
+            name=name, surname=surname,
+            phono=phono, address=address,
+            city=city, province=province,
+            zip_code=zip_code
+        )
+        user_extra_data.save()
+        
+        return JsonResponse({
+            "result": "ok",
+            "message": "extra_data was created succesfully",
+            "user_extra_data": user_extra_data
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            "result": "error",
+            "message": "something went wrong on the server",
+            "traceback": str(e)
         })

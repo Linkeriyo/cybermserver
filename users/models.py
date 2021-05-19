@@ -15,7 +15,7 @@ class UserExtraData(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
-    phno = models.CharField(max_length=9)
+    phono = models.CharField(max_length=9)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=30)
     province = models.CharField(max_length=30)
@@ -24,10 +24,9 @@ class UserExtraData(models.Model):
     def json(self):
         json = {
             'pk': self.user.pk,
-            'email': self.email,
             'name': self.name,
             'surname': self.surname,
-            'phno': self.phno,
+            'phono': self.phono,
             'address': self.address,
             'city': self.city,
             'province': self.province,
