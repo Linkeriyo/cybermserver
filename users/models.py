@@ -22,7 +22,7 @@ class UserExtraData(models.Model):
     city = models.CharField(max_length=30)
     province = models.CharField(max_length=30)
     zip_code = models.CharField(max_length=7)
-
+    
     def json(self):
         json = {
             'pk': self.user.pk,

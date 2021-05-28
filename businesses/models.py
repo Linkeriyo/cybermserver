@@ -1,3 +1,4 @@
+from businesses.utils import create_new_business_id
 from django.db import models
 
 # Create your models here.
@@ -8,9 +9,16 @@ class CyberCafe(models.Model):
     city = models.CharField(max_length=30)
     province = models.CharField(max_length=30)
     zip_code = models.CharField(max_length=7)
-    telephone_number = models.CharField(max_length=9)
+    phono = models.CharField(max_length=9)
     email = models.CharField(max_length=50)
-
+    business_id = models.CharField(
+        max_length=10,
+        blank=True,
+        editable=True,
+        unique=True,
+        default=create_new_business_id
+    )
+            
     def json(self):
         json = {
             'pk': self.pk,
@@ -20,7 +28,8 @@ class CyberCafe(models.Model):
             'city': self.city,
             'province': self.province,
             'zip_code': self.zip_code,
-            'telephone_number': self.telephone_number,
-            'email': self.email
+            'phono': self.phono,
+            'email': self.email,
+            'business_id': self.business_id
         }
         return json

@@ -2,5 +2,5 @@ from store.models import Product, ProductType
 from django.contrib import admin
 
 # Register your models here.
-admin.register(ProductType)
-admin.register(Product)
+admin.site.register(ProductType)
+admin.site.register(Product)

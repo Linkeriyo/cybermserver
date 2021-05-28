@@ -26,7 +26,7 @@ SECRET_KEY = 'fcj=2#4&et%=ru(ees_)2kw57gb!b_2%wgj5-b#st)+1(2$^g^'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.1.37'
+    '192.168.1.36'
 ]
 
 # Application definition
