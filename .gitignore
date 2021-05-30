@@ -4,3 +4,4 @@ __pycache__
 */__pycache__
 sqlite
 */migrations
+package-lock.json

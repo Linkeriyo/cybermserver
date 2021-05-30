@@ -15,7 +15,7 @@ class CyberCafe(models.Model):
     business_id = models.CharField(
         max_length=10,
         blank=True,
-        editable=True,
+        editable=False,
         unique=True,
         default=create_new_business_id
     )
