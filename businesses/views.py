@@ -14,7 +14,7 @@ def check_business(request):
         
         if business is None:
             return JsonResponse({
-                "result": "error",
+                "result": "ok",
                 "message": "that id didn't match any businesses"
             })
             

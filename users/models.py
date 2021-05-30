@@ -25,17 +25,23 @@ class UserExtraData(models.Model):
     
     def json(self):
         json = {
-            'pk': self.user.pk,
-            'name': self.name,
-            'surname': self.surname,
-            'phono': self.phono,
-            'address': self.address,
-            'city': self.city,
-            'province': self.province,
-            'zip_code': self.zip_code
+            "pk": self.user.pk,
+            "name": self.name,
+            "surname": self.surname,
+            "phono": self.phono,
+            "address": self.address,
+            "city": self.city,
+            "province": self.province,
+            "zip_code": self.zip_code
         }
         return json
 
 class UserCybercafes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cybercafe = models.ForeignKey(CyberCafe, on_delete=models.CASCADE)
+    business = models.ForeignKey(CyberCafe, on_delete=models.CASCADE)
+    
+    def json(self):
+        return {
+            "user": self.user.json(),
+            "business": self.business.json()
+        }

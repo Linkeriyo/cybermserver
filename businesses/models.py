@@ -11,6 +11,7 @@ class CyberCafe(models.Model):
     zip_code = models.CharField(max_length=7)
     phono = models.CharField(max_length=9)
     email = models.CharField(max_length=50)
+    image = models.CharField(max_length=200)
     business_id = models.CharField(
         max_length=10,
         blank=True,
@@ -30,6 +31,7 @@ class CyberCafe(models.Model):
             'zip_code': self.zip_code,
             'phono': self.phono,
             'email': self.email,
+            'image': self.image,
             'business_id': self.business_id
         }
         return json
