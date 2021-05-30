@@ -35,7 +35,7 @@ def check_business(request):
 @csrf_exempt
 def get_businesses_by_user(request):
     try:
-        token = request.POST["data"]
+        token = request.POST["token"]
         
         usertoken = get_object_or_None(UserToken, token=token)
         if usertoken is None:
@@ -49,12 +49,12 @@ def get_businesses_by_user(request):
         businesslist = []
         
         for b in businesses:
-            businesslist.append(b.json())
+            businesslist.append(b.business.json())
         
         return JsonResponse({
             "result": "ok",
             "message": "buinesses retrieved",
-            "businesses": businesslist
+            "business_list": businesslist
         })
         
     except Exception as e:
