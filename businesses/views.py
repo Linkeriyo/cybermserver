@@ -1,3 +1,5 @@
+from users.models import UserCybercafes, UserToken
+from users.views import check_token
 from businesses.models import CyberCafe
 from annoying.functions import get_object_or_None
 from django.http.response import JsonResponse
@@ -21,6 +23,38 @@ def check_business(request):
         return JsonResponse({
             "result": "ok",
             "business": business.json()
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            "result": "error",
+            "message": "something went wrong on the server",
+            "traceback": str(e)
+        })
+    
+@csrf_exempt
+def get_businesses_by_user(request):
+    try:
+        token = request.POST["data"]
+        
+        usertoken = get_object_or_None(UserToken, token=token)
+        if usertoken is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "token is null"
+            })
+        
+        businesses = UserCybercafes.objects.filter(user=usertoken.user)
+        
+        businesslist = []
+        
+        for b in businesses:
+            businesslist.append(b.json())
+        
+        return JsonResponse({
+            "result": "ok",
+            "message": "buinesses retrieved",
+            "businesses": businesslist
         })
         
     except Exception as e:
