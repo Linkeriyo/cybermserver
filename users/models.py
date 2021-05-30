@@ -1,4 +1,3 @@
-from django.db.models.deletion import CASCADE
 from businesses.models import CyberCafe
 from django.contrib.auth.models import User
 from django.db import models
@@ -42,6 +41,7 @@ class UserCybercafes(models.Model):
     
     def json(self):
         return {
-            "user": self.user.json(),
+            "username": self.user.username,
             "business": self.business.json()
         }
+    

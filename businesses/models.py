@@ -22,16 +22,16 @@ class CyberCafe(models.Model):
             
     def json(self):
         json = {
-            'pk': self.pk,
-            'name': self.name,
-            'description': self.description,
-            'address': self.address,
-            'city': self.city,
-            'province': self.province,
-            'zip_code': self.zip_code,
-            'phono': self.phono,
-            'email': self.email,
-            'image': self.image,
-            'business_id': self.business_id
+            "pk": self.pk,
+            "name": self.name,
+            "description": self.description,
+            "address": self.address,
+            "city": self.city,
+            "province": self.province,
+            "zip_code": self.zip_code,
+            "phono": self.phono,
+            "email": self.email,
+            "image": self.image,
+            "business_id": self.business_id
         }
         return json

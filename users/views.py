@@ -1,3 +1,4 @@
+from businesses.models import CyberCafe
 from json.decoder import JSONDecodeError
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -304,14 +305,27 @@ def add_cybercafe_to_user(request):
         business = data.get("business")
 
         usertoken = get_object_or_None(UserToken, token=token)
-        
         if usertoken is None:
             return JsonResponse({
                 "result": "error",
                 "message": "token is null"
             })
         
-        user_cybercafe = UserCybercafes(user=usertoken.user, business=business)
+        cybercafe = get_object_or_None(CyberCafe, pk=business.get("pk"))
+        if cybercafe is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "business is none"
+            })
+        
+        user_cybercafe = get_object_or_None(UserCybercafes, user=usertoken.user, business=cybercafe)
+        if user_cybercafe is not None:
+            return JsonResponse({
+                "result": "ok",
+                "message": "business was already added"
+            })
+        
+        user_cybercafe = UserCybercafes(user=usertoken.user, business=cybercafe)
         user_cybercafe.save()
         
         return JsonResponse({
@@ -325,3 +339,4 @@ def add_cybercafe_to_user(request):
             "message": "something went wrong on the server",
             "traceback": str(e)
         })
+    
