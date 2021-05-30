@@ -243,7 +243,15 @@ def set_user_extra_data(request):
             return JsonResponse(check_result)
         
         user_token = get_object_or_None(UserToken, token=token)
+        user_extra_data = get_object_or_None(UserExtraData, user=user_token.user)
         
+        if user_extra_data is not None:
+            return JsonResponse({
+                "result": "ok",
+                "message": "extra_data already existed",
+                "user_extra_data": user_extra_data.json()
+            })
+
         user_extra_data = UserExtraData(
             user=user_token.user, 
             name=name, surname=surname,
@@ -254,9 +262,9 @@ def set_user_extra_data(request):
         user_extra_data.save()
         
         return JsonResponse({
-            "result": "ok",
-            "message": "extra_data was created succesfully",
-            "user_extra_data": user_extra_data
+        "result": "ok",
+        "message": "extra_data was created succesfully",
+        "user_extra_data": user_extra_data.json()
         })
 
     except Exception as e:
