@@ -315,7 +315,7 @@ def add_cybercafe_to_user(request):
         if cybercafe is None:
             return JsonResponse({
                 "result": "error",
-                "message": "business is none"
+                "message": "business is null"
             })
         
         user_cybercafe = get_object_or_None(UserCybercafes, user=usertoken.user, business=cybercafe)
@@ -340,3 +340,44 @@ def add_cybercafe_to_user(request):
             "traceback": str(e)
         })
     
+
+@csrf_exempt
+def remove_cybercafe_from_user(request):
+    try:
+        data = json.loads(request.POST["data"])
+        token = data.get("token")
+        business = data.get("business")
+        
+        usertoken = get_object_or_None(UserToken, token=token)
+        if usertoken is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "token is null"
+            })
+        
+        cybercafe = get_object_or_None(CyberCafe, pk=business.get("pk"))
+        if cybercafe is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "business is null"
+            })
+        
+        user_cybercafe = get_object_or_None(UserCybercafes, user=usertoken.user, business=cybercafe)
+        if user_cybercafe is None:
+            return JsonResponse({
+                "result": "ok",
+                "message": "business was not added"
+            })
+            
+        user_cybercafe.delete()
+        return JsonResponse({
+            "result": "ok",
+            "message": "business removed from user succesfully"
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            "result": "error",
+            "message": "something went wrong on the server",
+            "traceback": str(e)
+        })

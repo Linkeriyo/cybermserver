@@ -21,7 +21,7 @@ class CyberCafe(models.Model):
     )
             
     def json(self):
-        json = {
+        return {
             "pk": self.pk,
             "name": self.name,
             "description": self.description,
@@ -34,4 +34,3 @@ class CyberCafe(models.Model):
             "image": self.image,
             "business_id": self.business_id
         }
-        return json
