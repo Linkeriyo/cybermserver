@@ -285,9 +285,9 @@ def set_user_extra_data(request):
         user_extra_data.save()
         
         return JsonResponse({
-        "result": "ok",
-        "message": "extra_data was created succesfully",
-        "user_extra_data": user_extra_data.json()
+            "result": "ok",
+            "message": "extra_data was created succesfully",
+            "user_extra_data": user_extra_data.json()
         })
 
     except Exception as e:
