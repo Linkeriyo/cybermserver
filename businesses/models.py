@@ -1,3 +1,4 @@
+from django.db.models.deletion import CASCADE
 from businesses.utils import create_new_business_id
 from django.db import models
 
@@ -34,3 +35,21 @@ class CyberCafe(models.Model):
             "image": self.image,
             "business_id": self.business_id
         }
+        
+
+class Post(models.Model):
+    title = models.CharField(max_length=50)
+    content = models.CharField(max_length=5000)
+    image = models.CharField(max_length=200)
+    date = models.CharField(max_length=11)
+    business = models.ForeignKey(CyberCafe, CASCADE)
+    
+    def json(self):
+        return {
+            "pk": self.pk,
+            "title": self.title,
+            "content": self.content,
+            "image": self.image,
+            "date": self.date
+        }
+        
