@@ -66,7 +66,7 @@ def get_businesses_by_user(request):
     
 
 @csrf_exempt
-def get_posts_by_business(request):
+def get_posts_by_business_id(request):
     try:
         data = json.loads(request.POST["data"])
         token = data.get("token")
@@ -91,7 +91,7 @@ def get_posts_by_business(request):
         post_list = []
         
         for p in posts:
-            post_list.append(p.post.json())
+            post_list.append(p.json())
             
         return JsonResponse({
             "result": "ok",
@@ -105,3 +105,4 @@ def get_posts_by_business(request):
             "message": "something went wrong on the server",
             "traceback": str(e)
         })
+    
