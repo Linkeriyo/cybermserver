@@ -11,18 +11,35 @@ import json
 @csrf_exempt
 def check_business(request):
     try:
-        business_id = request.POST["business_id"]
-        business = get_object_or_None(CyberCafe, business_id=business_id)
+        data = json.loads(request.POST["data"])
+        token = data.get("token")
+        business_id = data.get("business_id")
         
+        usertoken = get_object_or_None(UserToken, token=token)
+        if usertoken is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "token is null"
+            })
+        
+        business = get_object_or_None(CyberCafe, business_id=business_id)
         if business is None:
             return JsonResponse({
                 "result": "ok",
                 "message": "that id didn't match any businesses"
             })
             
+        user_cybercafe = get_object_or_None(UserCybercafes, user=usertoken.user, business=business)
+        if user_cybercafe is None:
+            return JsonResponse({
+                "result": "error",
+                "message": "user_cybercafe is null"
+            })
+        
         return JsonResponse({
             "result": "ok",
-            "business": business.json()
+            "business": business.json(),
+            "balance": user_cybercafe.balance
         })
         
     except Exception as e:

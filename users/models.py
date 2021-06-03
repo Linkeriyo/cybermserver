@@ -1,3 +1,4 @@
+from django.db.models.deletion import CASCADE
 from businesses.models import CyberCafe
 from django.contrib.auth.models import User
 from django.db import models
@@ -36,12 +37,14 @@ class UserExtraData(models.Model):
         return json
 
 class UserCybercafes(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    business = models.ForeignKey(CyberCafe, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    business = models.ForeignKey(CyberCafe, on_delete=CASCADE)
+    balance = models.IntegerField(default=0)
     
     def json(self):
         return {
             "username": self.user.username,
-            "business": self.business.json()
+            "business": self.business.json(),
+            "balance": self.balance
         }
     
