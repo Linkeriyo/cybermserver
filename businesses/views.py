@@ -51,6 +51,7 @@ def check_business(request):
             "traceback": str(e)
         })
     
+
 @csrf_exempt
 def get_businesses_by_user(request):
     try:
