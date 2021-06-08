@@ -155,7 +155,7 @@ def get_cybergold(request):
         
         return JsonResponse({
             "result": "ok",
-            "message": "balance has been added",except 
+            "message": "balance has been added",
             "balance": user_cybercafe.balance
         })
         
