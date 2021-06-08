@@ -73,7 +73,7 @@ def get_businesses_by_user(request):
         
         return JsonResponse({
             "result": "ok",
-            "message": "buinesses retrieved",
+            "message": "businesses retrieved",
             "business_list": business_list
         })
         
