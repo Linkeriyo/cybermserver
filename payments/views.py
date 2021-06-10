@@ -7,7 +7,9 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-# Create your views here.
+"""
+    Gets all the payment methods a user has registered.
+"""
 @csrf_exempt
 def get_methods_by_user(request):
     try:
@@ -40,6 +42,10 @@ def get_methods_by_user(request):
             "traceback": str(e)
         })
         
+        
+"""
+    Registers a new card for the user requesting it.
+"""
 @csrf_exempt
 def register_new_card(request):
     try:
@@ -84,6 +90,9 @@ def register_new_card(request):
         })
     
 
+"""
+    Removes a card for the user requesting it.
+"""
 @csrf_exempt
 def remove_card(request):
     try:
@@ -121,6 +130,10 @@ def remove_card(request):
         })
 
 
+"""
+    Gets cybergold for the user requesting it for the
+    specified cybercafe.
+"""
 @csrf_exempt
 def get_cybergold(request):
     try:

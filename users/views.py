@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from users.models import UserCybercafes, UserExtraData, UserToken
 from utilities import Token
 
+
+#Easter egg
 @csrf_exempt
 def index(request):
     return JsonResponse({
@@ -18,6 +20,9 @@ def index(request):
     })
 
 
+"""
+    Checks if a combination of token and username is valid.
+"""
 def check_user(token, username):
     try:
         user_token = get_object_or_None(UserToken, token=token)
@@ -45,6 +50,10 @@ def check_user(token, username):
             "message": str(e)
         }
 
+
+"""
+    Checks if a specified token is valid.
+"""
 def check_token(token):
     try:
         user_token = get_object_or_None(UserToken, token=token)
@@ -67,6 +76,9 @@ def check_token(token):
         }
 
 
+"""
+    Logs a user in by its username and password combination.
+"""
 @csrf_exempt
 def login(request):
     try:
@@ -134,6 +146,9 @@ def login(request):
         })
 
 
+"""
+    Logs out a User by their token.
+"""
 @csrf_exempt
 def logout(request):
     try:
@@ -167,6 +182,10 @@ def logout(request):
         })
 
 
+"""
+    Signs up a user with their basic data. This does not
+    include UserExtraData.
+"""
 @csrf_exempt
 def signup(request):
     try:
@@ -209,6 +228,10 @@ def signup(request):
             "traceback": str(e)
         })
 
+
+"""
+    Checks if UserExtraData exists for the user requesting.
+"""
 @csrf_exempt
 def check_user_extra_data(request):
     try:
@@ -247,6 +270,9 @@ def check_user_extra_data(request):
         })
 
 
+"""
+    Creates UserExtraData for the user requesting it.
+"""
 @csrf_exempt
 def set_user_extra_data(request):
     try:
@@ -296,7 +322,11 @@ def set_user_extra_data(request):
             "message": "something went wrong on the server",
             "traceback": str(e)
         })
-    
+        
+        
+"""
+    Adds CyberCafe to the user requesting it.
+"""
 @csrf_exempt
 def add_cybercafe_to_user(request):
     try:
@@ -341,6 +371,9 @@ def add_cybercafe_to_user(request):
         })
     
 
+"""
+    Removes Cybercafe for the user requesting it.
+"""
 @csrf_exempt
 def remove_cybercafe_from_user(request):
     try:
@@ -381,3 +414,4 @@ def remove_cybercafe_from_user(request):
             "message": "something went wrong on the server",
             "traceback": str(e)
         })
+    

@@ -7,7 +7,10 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-# Create your views here.
+"""
+    Gets the cybercafe the user is requesting if it exists
+    with their balance if there is it.
+"""
 @csrf_exempt
 def check_business(request):
     try:
@@ -52,6 +55,9 @@ def check_business(request):
         })
     
 
+"""
+    Gets all the businesses a user has added.
+"""
 @csrf_exempt
 def get_businesses_by_user(request):
     try:
@@ -85,6 +91,9 @@ def get_businesses_by_user(request):
         })
     
 
+"""
+    Gets all the posts registered by a CyberCafe.
+"""
 @csrf_exempt
 def get_posts_by_business_id(request):
     try:
@@ -127,6 +136,9 @@ def get_posts_by_business_id(request):
         })
     
     
+"""
+    Gets all the computers for a requested cybercafe.
+"""
 @csrf_exempt
 def get_computers_by_business_id(request):
     try:
